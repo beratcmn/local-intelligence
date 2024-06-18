@@ -4,6 +4,7 @@ from llama_cpp import Llama
 class LLM:
     def __init__(self) -> None:
         print("INFO: Loading model...")
+        self.system_prompt = "You are responsible for rephrasing, summarizing, or editing various text snippets to make them more concise, coherent, and engaging. You are also responsible for writing emails, messages, and other forms of communication."
         self.llm = Llama.from_pretrained(
             repo_id="MaziyarPanahi/Qwen2-1.5B-Instruct-GGUF",
             filename="Qwen2-1.5B-Instruct.Q4_K_M.gguf",
@@ -15,7 +16,6 @@ class LLM:
             verbose=False,
         )
         print("INFO: Model loaded successfully.")
-        self.system_prompt = "You are responsible for rephrasing, summarizing, or editing various text snippets to make them more concise, coherent, and engaging. You are also responsible for writing emails, messages, and other forms of communication."
 
     def generate(
         self, text: str, max_tokens: int = 4096, temperature: float = 0.3
