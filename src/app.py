@@ -150,6 +150,14 @@ class ButtonTreeApp:
         x, y = pyautogui.position()
         new_window.geometry(f"+{x-300}+{y-300}")
 
+        # Function to close window if focus is lost
+        def on_focus_out(event):
+            if not new_window.focus_get():
+                new_window.destroy()
+
+        new_window.bind("<FocusOut>", on_focus_out)
+        new_window.focus_force()  # Force focus to the new window
+
 
 def main():
     root = ctk.CTk()
