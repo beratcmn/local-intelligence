@@ -2,6 +2,7 @@ import tkinter as tk
 import keyboard
 import pyautogui
 import customtkinter as ctk
+from concurrent.futures import ThreadPoolExecutor
 from utils.llm import LLM
 from utils.prompts import get_task_prompts
 import pyperclip
@@ -89,6 +90,8 @@ class ButtonTreeApp:
         )
         explain_button.grid(row=4, column=0, pady=5)
 
+        self.executor = ThreadPoolExecutor(max_workers=5)
+
     def toggle_window(self):
         if self.root.state() == "withdrawn":
             # Get the current mouse position
@@ -99,12 +102,15 @@ class ButtonTreeApp:
             self.root.withdraw()
 
     def on_button_click(self, task_index):
+        self.toggle_window()
+        self.executor.submit(self.handle_button_click, task_index)
+
+    def handle_button_click(self, task_index):
         prompt = self.prompts[task_index]["prompt"]
         prompt = prompt.format(text=pyperclip.paste())
         generated_text = self.llm.generate(prompt)
         pyperclip.copy(generated_text)  # Automatically copy generated text to clipboard
-        self.toggle_window()
-        self.show_generated_text(generated_text)
+        self.root.after(0, self.show_generated_text, generated_text)
 
     def show_generated_text(self, text):
         new_window = tk.Toplevel(self.root)
