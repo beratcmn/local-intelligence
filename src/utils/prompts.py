@@ -40,4 +40,14 @@ List the keywords in the text below:
 Keywords:
 """.strip(),
         },
+        {
+            "task": "Explain",
+            "prompt": """
+Explain the text below:
+
+{text}
+
+Explanation:
+""".strip(),
+        },
     ]

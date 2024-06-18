@@ -32,67 +32,62 @@ class ButtonTreeApp:
             text="✨",
             bg=self.root["bg"],
             font=("Roboto", 24),
-            fg=("yellow"),
+            fg="yellow",
         )
         self.icon_label.pack()
 
         # Add buttons
+        button_options = {
+            "width": 160,
+            "height": 40,
+            "corner_radius": 10,
+            "fg_color": "white",
+            "font": ("Roboto", 14, "normal"),
+            "text_color": "#212121",
+            "hover_color": "gray",
+            "border_width": 1,
+            "border_color": "#212121",
+        }
 
         summarize_button = ctk.CTkButton(
             self.buttons_frame,
             text="Summarize",
-            width=160,
-            height=40,
-            corner_radius=10,
             command=lambda i=0: self.on_button_click(i),
-            fg_color="white",
-            font=("Roboto", 14, "normal"),
-            text_color="#212121",
-            hover_color="gray",
+            **button_options,
         )
         summarize_button.grid(row=0, column=0, pady=5)
 
         compose_mail_button = ctk.CTkButton(
             self.buttons_frame,
             text="Compose Mail",
-            width=160,
-            height=40,
-            corner_radius=10,
             command=lambda i=1: self.on_button_click(i),
-            fg_color="white",
-            font=("Roboto", 14, "normal"),
-            text_color="#212121",
-            hover_color="gray",
+            **button_options,
         )
         compose_mail_button.grid(row=1, column=0, pady=5)
 
         fix_grammer_button = ctk.CTkButton(
             self.buttons_frame,
             text="Fix Grammar",
-            width=160,
-            height=40,
-            corner_radius=10,
             command=lambda i=2: self.on_button_click(i),
-            fg_color="white",
-            font=("Roboto", 14, "normal"),
-            text_color="#212121",
-            hover_color="gray",
+            **button_options,
         )
         fix_grammer_button.grid(row=2, column=0, pady=5)
 
         get_keywords_button = ctk.CTkButton(
             self.buttons_frame,
             text="Extract Keywords",
-            width=160,
-            height=40,
-            corner_radius=10,
             command=lambda i=3: self.on_button_click(i),
-            fg_color="white",
-            font=("Roboto", 14, "normal"),
-            text_color="#212121",
-            hover_color="gray",
+            **button_options,
         )
         get_keywords_button.grid(row=3, column=0, pady=5)
+
+        explain_button = ctk.CTkButton(
+            self.buttons_frame,
+            text="Explain",
+            command=lambda i=4: self.on_button_click(i),
+            **button_options,
+        )
+        explain_button.grid(row=4, column=0, pady=5)
 
     def toggle_window(self):
         if self.root.state() == "withdrawn":
@@ -106,15 +101,55 @@ class ButtonTreeApp:
     def on_button_click(self, task_index):
         prompt = self.prompts[task_index]["prompt"]
         prompt = prompt.format(text=pyperclip.paste())
-        print(prompt)
+        generated_text = self.llm.generate(prompt)
+        pyperclip.copy(generated_text)  # Automatically copy generated text to clipboard
         self.toggle_window()
+        self.show_generated_text(generated_text)
+
+    def show_generated_text(self, text):
+        new_window = tk.Toplevel(self.root)
+        new_window.title("Generated Text")
+        new_window.geometry("600x400")
+        new_window.overrideredirect(True)  # Make the window borderless
+
+        # Make the window transparent
+        new_window.attributes("-transparentcolor", new_window["bg"])
+
+        # Center frame for rounded corners effect
+        center_frame = ctk.CTkFrame(
+            new_window,
+            fg_color="white",
+            corner_radius=10,
+            width=580,
+            height=380,
+        )
+        center_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        # Create a CTkTextbox for text display with a scrollbar
+        text_box = ctk.CTkTextbox(
+            center_frame,
+            wrap=tk.WORD,
+            font=("Roboto", 18),
+            corner_radius=10,
+            border_width=1,
+            border_color="#212121",
+            width=560,
+            height=360,
+        )
+        text_box.pack(expand=True, fill="both", padx=5, pady=5)
+        text_box.insert(tk.END, text)
+        text_box.configure(state="disabled")  # Make the text box read-only
+
+        # Position the new window near the mouse cursor
+        x, y = pyautogui.position()
+        new_window.geometry(f"+{x-300}+{y-300}")
 
 
 def main():
     root = ctk.CTk()
     app = ButtonTreeApp(root)
 
-    # Bind the Alt + Space key combination to toggle the button tree
+    # Bind the CTRL + Space key combination to toggle the button tree
     keyboard.add_hotkey("ctrl+space", app.toggle_window)
 
     root.mainloop()
