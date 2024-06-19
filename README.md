@@ -43,7 +43,7 @@ Local Intelligence is a versatile desktop application designed to perform variou
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/your-username/local-intelligence.git
+   git clone https://github.com/beratcmn/local-intelligence.git
    cd local-intelligence
    ```
 
