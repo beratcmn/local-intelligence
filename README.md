@@ -23,11 +23,12 @@ Local Intelligence is a versatile desktop application designed to perform variou
 - **Fix Grammar:** Correct grammatical errors in your text.
 - **Extract Keywords:** Identify key terms and phrases.
 - **Explain Text:** Generate explanations for complex text.
+- **Rephrase Generated Text:** Rephrase the generated text based on the desired tone. Tones are categorized as `Casual`, `Formal`, `Professional`, `Technical`, `Simple`.
 
 ## Todo
 
 - [ ] Add CPU only LLM inference
-- [ ] Add more features such as rephrasing based on the desired tone
+- [x] Add more features such as rephrasing based on the desired tone
 - [ ] Build the project to a standalone executable for Windows, macOS, and Linux
 - [ ] Create a user-friendly installer for the application
 - [ ] Learn how to be a open source maintainer
@@ -51,7 +52,7 @@ Local Intelligence is a versatile desktop application designed to perform variou
 
    ```sh
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate.ps1 or venv\Scripts\activate.bat`
    ```
 
 3. **Install the dependencies:**

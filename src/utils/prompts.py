@@ -57,3 +57,68 @@ Explanation:
 """.strip(),
         },
     ]
+
+
+def get_editor_prompts():
+    """
+    Return a list of prompts for the text editor task. Each prompt is designed to guide the language model in editing text
+    to make it more concise, coherent, and engaging.
+
+    :return: List of dictionaries, each containing an 'editor' and its corresponding 'prompt'.
+    """
+
+    # ["Casual", "Formal", "Professional", "Technical", "Simple"]
+
+    return [
+        {
+            "editor": "Casual",
+            "prompt": """
+Rewrite the text below in a casual tone:
+
+{text}
+
+Rewritten Text:
+""".strip(),
+        },
+        {
+            "editor": "Formal",
+            "prompt": """
+Rewrite the text below in a formal tone:
+
+{text}
+
+Rewritten Text:
+""".strip(),
+        },
+        {
+            "editor": "Professional",
+            "prompt": """
+Rewrite the text below in a professional tone:
+
+{text}
+
+Rewritten Text:
+""".strip(),
+        },
+        {
+            "editor": "Technical",
+            "prompt": """
+Rewrite the text below in a technical tone:
+
+{text}
+
+Rewritten Text:
+
+""".strip(),
+        },
+        {
+            "editor": "Simple",
+            "prompt": """
+Rewrite the text below in a simple tone:
+
+{text}
+
+Rewritten Text:
+""".strip(),
+        },
+    ]

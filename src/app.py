@@ -4,7 +4,7 @@ import pyautogui
 import customtkinter as ctk
 from concurrent.futures import ThreadPoolExecutor
 from utils.llm import LLM
-from utils.prompts import get_task_prompts
+from utils.prompts import get_task_prompts, get_editor_prompts
 import pyperclip
 
 
@@ -17,6 +17,7 @@ class CopilotApp:
     def __init__(self, root):
         self.llm = LLM()
         self.prompts = get_task_prompts()
+        self.editor_prompts = get_editor_prompts()
         self.root = root
         self._initialize_root_window()
         self._create_layout()
@@ -120,7 +121,7 @@ class CopilotApp:
         """
         new_window = tk.Toplevel(self.root)
         new_window.title("Generated Text")
-        new_window.geometry("600x400")
+        new_window.geometry("600x450")
         new_window.overrideredirect(True)
         new_window.attributes("-transparentcolor", new_window["bg"])
 
@@ -129,7 +130,7 @@ class CopilotApp:
             fg_color="white",
             corner_radius=10,
             width=580,
-            height=380,
+            height=430,
         )
         center_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
@@ -147,8 +148,35 @@ class CopilotApp:
         text_box.insert(tk.END, text)
         text_box.configure(state="disabled")
 
+        # Create buttons for editing text
+        edit_buttons_frame = ctk.CTkFrame(center_frame, fg_color="white")
+        edit_buttons_frame.pack(padx=5, pady=5)
+
+        edit_button_options = {
+            "width": 100,
+            "height": 30,
+            "corner_radius": 10,
+            "fg_color": "white",
+            "font": ("Roboto", 14, "normal"),
+            "text_color": "#212121",
+            "hover_color": "gray",
+            "border_width": 2,
+            "border_color": "#212121",
+        }
+
+        edit_tasks = ["Casual", "Formal", "Professional", "Technical", "Simple"]
+
+        for i, task in enumerate(edit_tasks):
+            edit_button = ctk.CTkButton(
+                edit_buttons_frame,
+                text=task,
+                command=lambda t=task: self.edit_text(t, text, text_box),
+                **edit_button_options,
+            )
+            edit_button.grid(row=0, column=i, padx=5)
+
         x, y = pyautogui.position()
-        new_window.geometry(f"+{x-300}+{y-300}")
+        new_window.geometry(f"+{x-300}+{y-250}")
 
         def on_focus_out(event):
             if not new_window.focus_get():
@@ -156,6 +184,25 @@ class CopilotApp:
 
         new_window.bind("<FocusOut>", on_focus_out)
         new_window.focus_force()
+
+    def edit_text(self, task, text, text_box):
+        """
+        Handle text editing tasks. Implement the logic as needed.
+        """
+
+        editor_prompt = next(
+            (item for item in self.editor_prompts if item["editor"] == task), None
+        )
+
+        if editor_prompt:
+            prompt = editor_prompt["prompt"]
+            prompt = prompt.format(text=text)
+            generated_text = self.llm.generate(prompt)
+            pyperclip.copy(generated_text)
+            text_box.configure(state="normal")
+            text_box.delete("1.0", tk.END)
+            text_box.insert(tk.END, generated_text)
+            text_box.configure(state="disabled")
 
 
 def main():
