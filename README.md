@@ -2,7 +2,9 @@
 
 Local Intelligence is a versatile desktop application designed to perform various text processing tasks using a sophisticated language model. It provides an intuitive GUI with buttons for summarizing text, composing emails, fixing grammar, extracting keywords, and explaining text. The application leverages advanced machine learning models to generate accurate and contextually appropriate outputs.
 
-![Showcase Video](https://github.com/beratcmn/local-intelligence/raw/main/assets/showcase_1.mp4)
+
+https://github.com/beratcmn/local-intelligence/assets/47108366/cc223c7e-cae0-465e-9663-b6dad4bf5820
+
 
 ## Table of Contents
 
