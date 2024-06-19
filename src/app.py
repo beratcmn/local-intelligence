@@ -8,9 +8,9 @@ from utils.prompts import get_task_prompts
 import pyperclip
 
 
-class ButtonTreeApp:
+class CopilotApp:
     """
-    ButtonTreeApp is a GUI application that provides a set of buttons to perform various text processing tasks.
+    CopilotApp is a GUI application that provides a set of buttons to perform various text processing tasks.
     It uses a language model (LLM) to generate responses based on clipboard content and displays the results in a new window.
     """
 
@@ -160,7 +160,7 @@ class ButtonTreeApp:
 
 def main():
     root = ctk.CTk()
-    app = ButtonTreeApp(root)
+    app = CopilotApp(root)
     keyboard.add_hotkey("ctrl+space", app.toggle_window)
     root.mainloop()
 
