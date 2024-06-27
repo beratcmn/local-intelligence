@@ -29,12 +29,15 @@ https://github.com/beratcmn/local-intelligence/assets/47108366/cc223c7e-cae0-465
 
 ## Todo
 
-- [ ] Add CPU only LLM inference
+- [x] Add CPU only LLM inference
 - [x] Add more features such as rephrasing based on the desired tone
 - [x] Ensure the application is running smoothly on Mac
 - [ ] Ensure the application is running smoothly on Linux
 - [ ] Build the project to a standalone executable for Windows, macOS, and Linux
 - [ ] Create a user-friendly installer for the application
+- [x] Better theme, icons, and overall design
+- [x] Fix text-view spawning outside of the screen
+- [x] Make text-view window draggable
 - [ ] Learn how to be a open source maintainer
 
 ## Installation
