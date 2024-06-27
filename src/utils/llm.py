@@ -17,7 +17,8 @@ class LLM:
             repo_id="MaziyarPanahi/Qwen2-1.5B-Instruct-GGUF",
             filename="Qwen2-1.5B-Instruct.Q4_K_M.gguf",
             local_dir="./models",
-            n_ctx=4096,
+            n_ctx=2048,
+            n_batch=1024,
             n_gpu_layers=-1,
             flash_attn=True,
             cont_batching=True,
@@ -26,7 +27,7 @@ class LLM:
         print("INFO: Model loaded successfully.")
 
     def generate(
-        self, text: str, max_tokens: int = 4096, temperature: float = 0.3
+        self, text: str, max_tokens: int = 2048, temperature: float = 0.3
     ) -> str:
         """
         Generate a response from the language model based on the provided text.

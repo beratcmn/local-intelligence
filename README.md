@@ -2,9 +2,7 @@
 
 Local Intelligence is a versatile desktop application designed to perform various text processing tasks using a sophisticated language model. It provides an intuitive GUI with buttons for summarizing text, composing emails, fixing grammar, extracting keywords, and explaining text. The application leverages advanced machine learning models to generate accurate and contextually appropriate outputs.
 
-
 https://github.com/beratcmn/local-intelligence/assets/47108366/cc223c7e-cae0-465e-9663-b6dad4bf5820
-
 
 ## Table of Contents
 
@@ -40,6 +38,8 @@ https://github.com/beratcmn/local-intelligence/assets/47108366/cc223c7e-cae0-465
 - [ ] Learn how to be a open source maintainer
 
 ## Installation
+
+> **_NOTE:_** You have to install "llama-cpp-python" based on your operating system. You can find the installation instructions [here](https://github.com/abetlen/llama-cpp-python).
 
 ### Prerequisites
 
