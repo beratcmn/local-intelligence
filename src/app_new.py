@@ -2,7 +2,15 @@ import flet as ft
 from pathlib import Path
 import pyautogui
 import keyboard
+from utils.llm import LLM
+from utils.prompts import get_task_prompts, get_editor_prompts
+from concurrent.futures import ThreadPoolExecutor
+import pyperclip
 
+executor = ThreadPoolExecutor(max_workers=5)
+prompts = get_task_prompts()
+editor_prompts = get_editor_prompts()
+llm = LLM()
 
 def main(page: ft.Page):
     width = 300
@@ -54,6 +62,21 @@ def main(page: ft.Page):
 
         page.update()
 
+    def handle_task_button_click(self, task_index):
+        global prompts
+        """
+        Execute the task corresponding to the clicked button.
+        """
+        prompt = prompts[task_index]["prompt"]
+        prompt = prompt.format(text=pyperclip.paste())
+        generated_text = llm.generate(prompt)
+        pyperclip.copy(generated_text)
+        print("Generated text:", generated_text)
+
+    def on_task_button_click(task_index):
+        print(f"Task {task_index} clicked")
+        executor.submit(handle_task_button_click, task_index)
+
     keyboard.add_hotkey("ctrl+space", toggle_window)
 
     page.add(
@@ -86,6 +109,7 @@ def main(page: ft.Page):
                                     width=160,
                                     height=40,
                                     on_hover=lambda e: hover_color_effect(e, 0),
+                                    on_click=lambda e: on_task_button_click(0),
                                     style=ft.ButtonStyle(
                                         bgcolor="white",
                                         side=ft.BorderSide(
