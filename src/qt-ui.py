@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QWidget,
     QLabel,
 )
+from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
 
@@ -25,23 +26,17 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         layout = QGridLayout(central_widget)
 
-        # Define button styles
-        button_style = """
-            QPushButton {
-                background-color: #FFD700;
-                color: white;
-                border-radius: 15px;
-                padding: 10px;
-                font-size: 16px;
-                margin: 5px;
-            }
-            QPushButton:hover {
-                background-color: #FFA500;
-            }
-        """
+        # Colors for borders
+        colors = ["#ED7D3A", "#1E90FF", "#0CCE6B", "#DCED31", "#EF2D56"]
 
-        # Define emoji label style
-        emoji_style = "font-size: 36px;"
+        # Load the image and set up the QLabel
+        pixmap = QPixmap("./assets/sparkles_72x72.png").scaled(
+            64, 64, Qt.KeepAspectRatio, Qt.SmoothTransformation
+        )
+        image_label = QLabel()
+        image_label.setPixmap(pixmap)
+        image_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(image_label, 2, 0)  # Place in first column
 
         # Emoji and button text
         buttons = [
@@ -51,19 +46,28 @@ class MainWindow(QMainWindow):
             "Extract Keywords",
             "Explain",
         ]
-        emoji = "✨"
 
-        # Add emoji and buttons to the grid
-        emoji_label = QLabel(emoji)
-        emoji_label.setStyleSheet(emoji_style)
-        emoji_label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(emoji_label, 2, 0)  # Place in first column
+        # Add buttons to the grid
         for i, text in enumerate(buttons):
-            # Create emoji label
-
-            # Create button
             button = QPushButton(text)
-            button.setStyleSheet(button_style)
+            # Set button styles with dynamic color assignment and transition effects
+            button.setStyleSheet(f"""
+                QPushButton {{
+                    background-color: white;
+                    color: black;
+                    border: 2px solid {colors[i]};
+                    border-radius: 15px;
+                    padding: 10px;
+                    font-size: 16px;
+                    margin: 5px;
+                    transition: transform 0.3s ease, background-color 0.3s ease;
+                }}
+                QPushButton:hover {{
+                    background-color: {colors[i]};
+                    color: white;
+                    transform: scale(1.1);
+                }}
+            """)
             layout.addWidget(button, i, 1)  # Place in second column
 
         layout.setAlignment(Qt.AlignCenter)  # Center the layout
