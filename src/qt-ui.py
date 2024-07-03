@@ -1,6 +1,14 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QPushButton,
+    QGridLayout,
+    QWidget,
+    QLabel,
+)
 from PySide6.QtCore import Qt
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -15,7 +23,7 @@ class MainWindow(QMainWindow):
         # Create central widget and layout
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-        layout = QVBoxLayout(central_widget)
+        layout = QGridLayout(central_widget)
 
         # Define button styles
         button_style = """
@@ -32,14 +40,34 @@ class MainWindow(QMainWindow):
             }
         """
 
-        # Create buttons
-        buttons = ["Summarize", "Compose Mail", "Fix Grammar", "Extract Keywords", "Explain"]
-        for text in buttons:
+        # Define emoji label style
+        emoji_style = "font-size: 36px;"
+
+        # Emoji and button text
+        buttons = [
+            "Summarize",
+            "Compose Mail",
+            "Fix Grammar",
+            "Extract Keywords",
+            "Explain",
+        ]
+        emoji = "✨"
+
+        # Add emoji and buttons to the grid
+        emoji_label = QLabel(emoji)
+        emoji_label.setStyleSheet(emoji_style)
+        emoji_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(emoji_label, 2, 0)  # Place in first column
+        for i, text in enumerate(buttons):
+            # Create emoji label
+
+            # Create button
             button = QPushButton(text)
             button.setStyleSheet(button_style)
-            layout.addWidget(button)
+            layout.addWidget(button, i, 1)  # Place in second column
 
         layout.setAlignment(Qt.AlignCenter)  # Center the layout
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
